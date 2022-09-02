@@ -13,7 +13,7 @@ namespace cic_subscriptions_backend.Context
 
         }
 
-        public DbSet<User> users => Set<User>();
+        public DbSet<User> userContext => Set<User>();
     }
 }
 

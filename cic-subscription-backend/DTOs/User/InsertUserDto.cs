@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace cic_subscriptions_backend.Models
+namespace cic_subscriptions_backend.Dtos.user
 {
-    public class User
+    public class InsertUserDto
     {
-        [Key]
         public long Id { get; set; }
 
         public string Name { get; set; }
@@ -15,7 +15,7 @@ namespace cic_subscriptions_backend.Models
 
         public string FatherName { get; set; }
 
-        [Column(TypeName = "Date")]
+
         public DateTime SubscriptionDate { get; set; }
 
         public string Address { get; set; }

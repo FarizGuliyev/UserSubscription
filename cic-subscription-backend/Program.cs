@@ -1,5 +1,6 @@
 using cic_subscriptions_backend.Context;
 using Microsoft.EntityFrameworkCore;
+using cic_subscriptions_backend.Services.UserServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var MyAllowOrigin = "myPolicy";
 builder.Services.AddCors(options =>
@@ -25,6 +27,10 @@ builder.Services.AddCors(options =>
 
 var connectionString = builder.Configuration.GetConnectionString("MyConnection");
 builder.Services.AddDbContext<DatabaseContext>(option => option.UseNpgsql(connectionString));
+
+
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 var app = builder.Build();
 
