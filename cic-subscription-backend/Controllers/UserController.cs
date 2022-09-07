@@ -1,4 +1,5 @@
 
+using cic_subscription_backend.DTOs;
 using cic_subscriptions_backend.Context;
 using cic_subscriptions_backend.Dtos.user;
 using cic_subscriptions_backend.Models;
@@ -22,35 +23,31 @@ public class UserController : ControllerBase
 
 
     [HttpPost]
-    public IActionResult PostUser(InsertUserDto userDto)
+    public async Task<ActionResult<User>> PostUser(InsertUserDto userDto)
     {
-        using (context)
-        {
-            service.InsertUser(userDto);
-
-        }
-        return Ok(userDto);
+        return Ok(await service.InsertUser(userDto));
     }
 
 
+
     [HttpGet]
-    public List<User> GetModels()
+    public async Task<List<User>> GetUsers()
     {
-        List<User> models = service.SelectUser();
+        List<User> models = await service.SelectUsers();
         return models;
     }
 
     [HttpPut("{id}")]
-    public User PutModel(int id, InsertUserDto userDto)
+    public async Task<User> PutUser(long id, InsertUserDto userDto)
     {
-        User user = service.UpdateUser(id, userDto);
+        User user = await service.UpdateUser(id, userDto);
         return user;
     }
 
     [HttpDelete("{id}")]
-    public User DeleteTodoItem(int id)
+    public async Task<User> DeleteUser(long id)
     {
-        User user = service.DeleteUser(id);
+        User user = await service.RemoveUser(id);
         return user;
     }
 

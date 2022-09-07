@@ -1,6 +1,9 @@
 using cic_subscriptions_backend.Context;
 using Microsoft.EntityFrameworkCore;
 using cic_subscriptions_backend.Services.UserServices;
+using cic_subscription_backend.Services.PaymentServices;
+using cic_subscription_backend.Services.PhoneNumberServices;
+using cic_subscription_backend.Services.SubscriptionTypeServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,10 @@ builder.Services.AddDbContext<DatabaseContext>(option => option.UseNpgsql(connec
 
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPhoneNumberService, PhoneNumberService>();
+builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();
+
 
 
 var app = builder.Build();

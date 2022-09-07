@@ -11,6 +11,8 @@ namespace cic_subscriptions_backend.Dtos.user
 
         public string Name { get; set; }
 
+        public string Password { get; set; }
+
         public string Surname { get; set; }
 
         public string FatherName { get; set; }
@@ -24,6 +26,6 @@ namespace cic_subscriptions_backend.Dtos.user
 
         public float Debt { get; set; }
 
-        public int SubscriptionTypeId { get; set; }
+        public long SubscriptionTypeId { get; set; }
     }
 }

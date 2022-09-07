@@ -1,7 +1,9 @@
 using AutoMapper;
+using cic_subscription_backend.DTOs;
 using cic_subscriptions_backend.Context;
 using cic_subscriptions_backend.Dtos.user;
 using cic_subscriptions_backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace cic_subscriptions_backend.Services.UserServices
 
@@ -11,35 +13,49 @@ namespace cic_subscriptions_backend.Services.UserServices
     {
         private DatabaseContext context;
         private IMapper mapping;
+
         public UserService(DatabaseContext databaseContext, IMapper autoMapping)
         {
             context = databaseContext;
             mapping = autoMapping;
+
         }
 
 
-        public User InsertUser(InsertUserDto userDto)
+        public async Task<User> InsertUser(InsertUserDto userDto)
         {
             var user = mapping.Map<User>(userDto);
-            context.userContext.Add(user);
-            context.SaveChanges();
+            await context.User.AddAsync(user);
+            await context.SaveChangesAsync();
             return user;
 
         }
 
-        public List<User> SelectUser()
+        public async Task<List<User>> SelectUsers()
         {
-            List<User> userList = context.userContext.ToList();
-            return userList;
+            List<User> users = await context.User.ToListAsync();
+            return users;
         }
 
-        public User UpdateUser(long id, InsertUserDto userDto)
+        public async Task<User> SelectUserById(long id)
+        {
+
+
+            var foundUser = await context.User.FindAsync(id);
+            if (foundUser == null)
+            {
+                throw new NotImplementedException();
+            }
+            return foundUser;
+        }
+
+        public async Task<User> UpdateUser(long id, InsertUserDto userDto)
         {
             if (id != userDto.Id)
             {
                 throw new NotImplementedException();
             }
-            var foundUser = context.userContext.Find(id);
+            var foundUser = await context.User.FindAsync(id);
 
             if (foundUser == null)
             {
@@ -48,20 +64,20 @@ namespace cic_subscriptions_backend.Services.UserServices
 
             var updateUser = mapping.Map<InsertUserDto, User>(userDto, foundUser);
             context.Entry(foundUser).CurrentValues.SetValues(userDto);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return foundUser;
         }
-        public User DeleteUser(long id)
+        public async Task<User> RemoveUser(long id)
         {
-            User foundUser = context.userContext.Find(id);
+            User foundUser = await context.User.FindAsync(id);
 
             if (foundUser == null)
             {
                 throw new NotImplementedException();
             }
 
-            context.userContext.Remove(foundUser);
-            context.SaveChangesAsync();
+            context.User.Remove(foundUser);
+            await context.SaveChangesAsync();
 
             return foundUser;
         }
