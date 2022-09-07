@@ -8,14 +8,19 @@ namespace cic_subscriptions_backend.Models
     {
         [Key]
         public long Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Password { get; set; }
+
         [Required]
         public string Surname { get; set; }
+
         [Required]
         public string FatherName { get; set; }
+
         [Required]
         [Column(TypeName = "Date")]
         public DateTime SubscriptionDate { get; set; }
