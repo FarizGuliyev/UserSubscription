@@ -13,7 +13,6 @@ namespace cic_subscriptions_backend.Services.UserServices
     {
         public Task<User> InsertUser(InsertUserDto userDto);
         public Task<List<User>> SelectUsers();
-       
         public Task<User> SelectUserById(long id);
         public Task<User> UpdateUser(long id, InsertUserDto userDto);
         public Task<User> RemoveUser(long id);

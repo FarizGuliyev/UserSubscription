@@ -12,7 +12,7 @@ using cic_subscriptions_backend.Context;
 namespace cic_subscription_backend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220907071718_MyMigrations")]
+    [Migration("20220919125234_MyMigrations")]
     partial class MyMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,10 +129,6 @@ namespace cic_subscription_backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 

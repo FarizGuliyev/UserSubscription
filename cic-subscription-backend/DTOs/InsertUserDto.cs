@@ -11,14 +11,12 @@ namespace cic_subscriptions_backend.Dtos.user
 
         public string Name { get; set; }
 
-        public string Password { get; set; }
-
         public string Surname { get; set; }
 
         public string FatherName { get; set; }
 
 
-        public DateTime SubscriptionDate { get; set; }
+         public DateTime SubscriptionDate { get; set; }
 
         public string Address { get; set; }
 

@@ -32,7 +32,6 @@ namespace cic_subscription_backend.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     FatherName = table.Column<string>(type: "text", nullable: false),
                     SubscriptionDate = table.Column<DateTime>(type: "Date", nullable: false),

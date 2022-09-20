@@ -13,8 +13,6 @@ namespace cic_subscription_backend.Services.SubscriptionTypeServices
 
         public Task<List<SubscriptionType>> SelectSubscriptionTypes();
 
-        public Task<SubscriptionType> SelectSubsById(long userId);
-
         public Task<SubscriptionType> UpdateSubscriptionType(long id, InsertSubscriptionTypeDto subscriptionTypeDto);
 
         public Task<SubscriptionType> RemoveSubscriptionType(long id);

@@ -43,8 +43,7 @@ namespace cic_subscription_backend.Services.PhoneNumberServices
                              ).ToList();
                 return phoneNumber;
             }
-
-        }
+ }
 
         public async Task<PhoneNumber> UpdatePhoneNumber(long id, InsertPhoneNumberDto phoneNumberDto)
         {

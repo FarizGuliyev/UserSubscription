@@ -130,10 +130,6 @@ namespace cic_subscription_backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("SubscriptionDate")
                         .HasColumnType("Date");
 

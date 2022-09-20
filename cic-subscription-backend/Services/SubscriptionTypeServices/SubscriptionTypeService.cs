@@ -34,12 +34,6 @@ namespace cic_subscription_backend.Services.SubscriptionTypeServices
             return subs;
         }
 
-        public async Task<SubscriptionType> SelectSubsById(long userId)
-        {
-            var foundUser = await context.User.FindAsync(userId);
-            var foundSubscription = await context.SubscriptionType.FindAsync(foundUser.SubscriptionTypeId);
-            return foundSubscription;
-        }
 
         public async Task<SubscriptionType> UpdateSubscriptionType(long id, InsertSubscriptionTypeDto subscriptionTypeDto)
         {

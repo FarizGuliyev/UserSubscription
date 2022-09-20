@@ -40,13 +40,7 @@ namespace cic_subscription_backend.Controllers
         }
 
 
-        [HttpGet("{userId}")]
-        public async Task<SubscriptionType> GetSubscriptionType(long userId)
-        {
-            var models = await service.SelectSubsById(userId);
-            return models;
-        }
-
+       
         [HttpPut("{id}")]
         public async Task<SubscriptionType> PutSubscriptionType(long id, InsertSubscriptionTypeDto subscriptionTypeDto)
         {
