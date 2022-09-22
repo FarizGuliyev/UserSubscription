@@ -29,20 +29,46 @@ namespace cic_subscription_backend.Services.PaymentServices
             return payment;
         }
 
-        public async Task<List<Payment>> SelectPaymentsById(long userId)
+
+        public async Task<List<SelectPaymentByUserDto>> SelectPaymentsByUser()
+        {
+            await using (context)
+            {
+                var payments = (from u in context.User
+                                join p in context.Payment on u.Id equals p.UserId
+                                orderby p.UserId
+                                select new SelectPaymentByUserDto()
+                                {
+                                    Id = p.Id,
+                                    UserId = p.UserId,
+                                    UserName = u.Name,
+                                    Amount = p.Amount,
+                                    Type = p.Type,
+                                    PayDate = p.PayDate,
+                                    Note = p.Note
+                                }
+                             ).ToList();
+
+                return payments;
+            }
+        }
+
+
+        public async Task<List<SelectPaymentByUserDto>> SelectPaymentsById(long userId)
         {
             await using (context)
             {
                 var payments = (from u in context.User
                                 join p in context.Payment on u.Id equals p.UserId
                                 where p.UserId == userId
-                                select new Payment()
+                                select new SelectPaymentByUserDto()
                                 {
                                     Id = p.Id,
                                     UserId = p.UserId,
+                                    UserName = u.Name,
                                     Amount = p.Amount,
                                     Type = p.Type,
-                                    Date = p.Date,
+                                    PayDate = p.PayDate,
                                     Note = p.Note
                                 }
                              ).ToList();
@@ -56,9 +82,9 @@ namespace cic_subscription_backend.Services.PaymentServices
             await using (context)
             {
                 var payments = (from u in context.User
-                                join p in context.Payment  on  u.Id equals p.UserId
+                                join p in context.Payment on u.Id equals p.UserId
                                 join s in context.SubscriptionType on u.SubscriptionTypeId equals s.Id
-                                orderby p.Date descending
+                                orderby p.PayDate descending
 
                                 select new SelectPaymenttDto()
                                 {
@@ -67,7 +93,7 @@ namespace cic_subscription_backend.Services.PaymentServices
                                     UserName = u.Name,
                                     ProductAmount = s.Price,
                                     PaymentAmount = p.Amount,
-                                    PaymentDate = p.Date.ToString("yyyy:MM:dd"),
+                                    PaymentDate = p.PayDate.ToString("yyyy:MM:dd"),
                                     Debt = u.Debt,
 
                                 }

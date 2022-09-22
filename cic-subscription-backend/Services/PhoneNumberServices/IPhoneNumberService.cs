@@ -10,8 +10,8 @@ namespace cic_subscription_backend.Services.PhoneNumberServices
     public interface IPhoneNumberService
     {
         public Task<PhoneNumber> InsertPhoneNumber(InsertPhoneNumberDto phoneNumberDto);
-
-        public Task<List<PhoneNumber>> SelectPhoneNumber(long userId);
+        public Task<List<SelectPhoneNumberDto>> SelectPhoneNumber();
+        public Task<List<PhoneNumber>> SelectPhoneNumberById(long userId);
         public Task<PhoneNumber> UpdatePhoneNumber(long id, InsertPhoneNumberDto phoneNumberDto);
         public Task<PhoneNumber> RemovePhoneNumber(long id);
     }

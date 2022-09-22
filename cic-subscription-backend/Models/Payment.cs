@@ -15,7 +15,7 @@ namespace cic_subscriptions_backend.Models
         public string Type { get; set; }
         [Required]
         [Column(TypeName = "Date")]
-        public DateTime Date { get; set; }
+        public DateTime PayDate { get; set; }
 
         public string Note { get; set; }
         public User user { get; set; }

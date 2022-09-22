@@ -34,16 +34,24 @@ namespace cic_subscription_backend.Controllers
         }
 
 
-        [HttpGet("{userId}")]
-        public async Task<List<Payment>> GetPaymentsById(long userId)
+        [HttpGet]
+        public async Task<List<SelectPaymentByUserDto>> GetPaymentsByUser()
         {
-            List<Payment> models = await service.SelectPaymentsById(userId);
+            List<SelectPaymentByUserDto> models = await service.SelectPaymentsByUser();
+            return models;
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<List<SelectPaymentByUserDto>> GetPaymentsById(long userId)
+        {
+            List<SelectPaymentByUserDto> models = await service.SelectPaymentsById(userId);
             return models;
         }
 
 
-        [HttpGet]
-        public async Task<List<SelectPaymenttDto>> GetPayments(){
+        [HttpGet("/Payment/dashboard")]
+        public async Task<List<SelectPaymenttDto>> GetPayments()
+        {
             List<SelectPaymenttDto> models = await service.SelectPayments();
             return models;
         }

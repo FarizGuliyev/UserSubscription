@@ -32,10 +32,17 @@ namespace cic_subscription_backend.Controllers
             return Ok(await service.InsertPhoneNumber(phoneNumberDto));
         }
 
-        [HttpGet("{userId}")]
-        public async Task<List<PhoneNumber>> GetPhoneNumber(long userId)
+        [HttpGet]
+        public async Task<List<SelectPhoneNumberDto>> GetPhoneNumber()
         {
-            List<PhoneNumber> models = await service.SelectPhoneNumber(userId);
+            List<SelectPhoneNumberDto> models = await service.SelectPhoneNumber();
+            return models;
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<List<PhoneNumber>> GetPhoneNumberById(long userId)
+        {
+            List<PhoneNumber> models = await service.SelectPhoneNumberById(userId);
             return models;
         }
 

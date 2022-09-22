@@ -27,7 +27,26 @@ namespace cic_subscription_backend.Services.PhoneNumberServices
             return phoneNumber;
         }
 
-        public async Task<List<PhoneNumber>> SelectPhoneNumber(long userId)
+        public async Task<List<SelectPhoneNumberDto>> SelectPhoneNumber()
+        {
+            await using (context)
+            {
+                var phoneNumber = (from u in context.User
+                                   join pn in context.PhoneNumber on u.Id equals pn.UserId
+                                   orderby pn.UserId
+                                   select new SelectPhoneNumberDto()
+                                   {
+                                       Id = pn.Id,
+                                       UserId = pn.UserId,
+                                       UserName = u.Name,
+                                       Number = pn.Number
+                                   }
+                             ).ToList();
+                return phoneNumber;
+            }
+        }
+
+        public async Task<List<PhoneNumber>> SelectPhoneNumberById(long userId)
         {
             await using (context)
             {
@@ -43,7 +62,7 @@ namespace cic_subscription_backend.Services.PhoneNumberServices
                              ).ToList();
                 return phoneNumber;
             }
- }
+        }
 
         public async Task<PhoneNumber> UpdatePhoneNumber(long id, InsertPhoneNumberDto phoneNumberDto)
         {

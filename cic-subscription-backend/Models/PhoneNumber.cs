@@ -11,6 +11,7 @@ namespace cic_subscriptions_backend.Models
         public long UserId { get; set; }
         [Required]
         public string Number { get; set; }
+            
         public User user { get; set; }
     }
 }

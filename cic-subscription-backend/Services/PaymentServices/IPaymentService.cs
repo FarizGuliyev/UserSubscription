@@ -10,7 +10,9 @@ namespace cic_subscription_backend.Services.PhoneNumberServices
     public interface IPaymentService
     {
         public  Task<Payment> InsertPayment(InsertPaymentDto paymentDto);
-        public  Task<List<Payment>> SelectPaymentsById(long userId);
+
+        public  Task<List<SelectPaymentByUserDto>> SelectPaymentsByUser();
+        public  Task<List<SelectPaymentByUserDto>> SelectPaymentsById(long userId);
          public  Task<List<SelectPaymenttDto>> SelectPayments();
          public  Task<Payment> UpdatePayment(long id, InsertPaymentDto paymentDto);
          public  Task<Payment> RemovePayment(long id);
