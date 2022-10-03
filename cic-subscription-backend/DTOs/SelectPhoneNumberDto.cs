@@ -12,6 +12,8 @@ namespace cic_subscription_backend.DTOs
          public long UserId { get; set; }
 
          public string UserName{get;set;}
+
+         public string SurName{get;set;}
         
         public string Number { get; set; }
 

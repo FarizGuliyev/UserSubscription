@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using cic_subscriptions_backend.Context;
@@ -11,9 +12,10 @@ using cic_subscriptions_backend.Context;
 namespace cic_subscription_backend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220930122314_MyMigrations12")]
+    partial class MyMigrations12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +46,7 @@ namespace cic_subscription_backend.Migrations
                     b.ToTable("Apartment");
                 });
 
-            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Flat", b =>
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Entrance", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,18 +54,21 @@ namespace cic_subscription_backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("FloorId")
+                    b.Property<long>("StreetId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("fkApartmentId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FloorId");
+                    b.HasIndex("fkApartmentId");
 
-                    b.ToTable("Flat");
+                    b.ToTable("Entrance");
                 });
 
             modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Floor", b =>
@@ -74,7 +79,7 @@ namespace cic_subscription_backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("ApartmentId")
+                    b.Property<long>("EntranceId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -83,12 +88,12 @@ namespace cic_subscription_backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApartmentId");
+                    b.HasIndex("EntranceId");
 
                     b.ToTable("Floor");
                 });
 
-            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.City", b =>
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.District", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,29 +112,7 @@ namespace cic_subscription_backend.Migrations
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("City");
-                });
-
-            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.House.HouseAddress", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("StreetId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StreetId");
-
-                    b.ToTable("HouseAddress");
+                    b.ToTable("District");
                 });
 
             modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Street", b =>
@@ -169,12 +152,9 @@ namespace cic_subscription_backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("fkCityId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("fkCityId");
+                    b.HasIndex("DistrictId");
 
                     b.ToTable("Village");
                 });
@@ -284,38 +264,21 @@ namespace cic_subscription_backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("ApartmentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CityId")
-                        .HasColumnType("bigint");
-
                     b.Property<float>("Debt")
                         .HasPrecision(4, 2)
                         .HasColumnType("real");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("FatherName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("FlatId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("FloorId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("HouseAddressId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<long?>("RegionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("StreetId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("SubscriptionDate")
                         .HasColumnType("Date");
@@ -327,30 +290,46 @@ namespace cic_subscription_backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("VillageId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ApartmentId");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("FlatId");
-
-                    b.HasIndex("FloorId");
-
-                    b.HasIndex("HouseAddressId");
-
-                    b.HasIndex("RegionId");
-
-                    b.HasIndex("StreetId");
 
                     b.HasIndex("SubscriptionTypeId");
 
-                    b.HasIndex("VillageId");
-
                     b.ToTable("User");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+                });
+
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Flat", b =>
+                {
+                    b.HasBaseType("cic_subscriptions_backend.Models.User");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Flat_Address");
+
+                    b.Property<long>("FloorId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("FloorId");
+
+                    b.HasDiscriminator().HasValue("Flat");
+                });
+
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.House.HouseAddress", b =>
+                {
+                    b.HasBaseType("cic_subscriptions_backend.Models.User");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("StreetId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("StreetId");
+
+                    b.HasDiscriminator().HasValue("HouseAddress");
                 });
 
             modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Apartment", b =>
@@ -364,29 +343,29 @@ namespace cic_subscription_backend.Migrations
                     b.Navigation("fkStreet");
                 });
 
-            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Flat", b =>
-                {
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.Building.Floor", "fkFloor")
-                        .WithMany()
-                        .HasForeignKey("FloorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("fkFloor");
-                });
-
-            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Floor", b =>
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Entrance", b =>
                 {
                     b.HasOne("cic_subscription_backend.Models.LocationModels.Building.Apartment", "fkApartment")
                         .WithMany()
-                        .HasForeignKey("ApartmentId")
+                        .HasForeignKey("fkApartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("fkApartment");
                 });
 
-            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.City", b =>
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Floor", b =>
+                {
+                    b.HasOne("cic_subscription_backend.Models.LocationModels.Building.Entrance", "fkEntrance")
+                        .WithMany()
+                        .HasForeignKey("EntranceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("fkEntrance");
+                });
+
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.District", b =>
                 {
                     b.HasOne("cic_subscription_backend.Models.Region", "fkRegion")
                         .WithMany()
@@ -395,17 +374,6 @@ namespace cic_subscription_backend.Migrations
                         .IsRequired();
 
                     b.Navigation("fkRegion");
-                });
-
-            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.House.HouseAddress", b =>
-                {
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.Street", "fkStreet")
-                        .WithMany()
-                        .HasForeignKey("StreetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("fkStreet");
                 });
 
             modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Street", b =>
@@ -421,13 +389,13 @@ namespace cic_subscription_backend.Migrations
 
             modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Village", b =>
                 {
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.City", "fkCity")
+                    b.HasOne("cic_subscription_backend.Models.LocationModels.District", "fkDistrict")
                         .WithMany()
-                        .HasForeignKey("fkCityId")
+                        .HasForeignKey("DistrictId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("fkCity");
+                    b.Navigation("fkDistrict");
                 });
 
             modelBuilder.Entity("cic_subscriptions_backend.Models.Payment", b =>
@@ -454,61 +422,35 @@ namespace cic_subscription_backend.Migrations
 
             modelBuilder.Entity("cic_subscriptions_backend.Models.User", b =>
                 {
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.Building.Apartment", "fkApartment")
-                        .WithMany()
-                        .HasForeignKey("ApartmentId");
-
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.City", "fkCity")
-                        .WithMany()
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.Building.Flat", "fkFlat")
-                        .WithMany()
-                        .HasForeignKey("FlatId");
-
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.Building.Floor", "fkFloor")
-                        .WithMany()
-                        .HasForeignKey("FloorId");
-
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.House.HouseAddress", "fkHouseAddress")
-                        .WithMany()
-                        .HasForeignKey("HouseAddressId");
-
-                    b.HasOne("cic_subscription_backend.Models.Region", "fkRegion")
-                        .WithMany()
-                        .HasForeignKey("RegionId");
-
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.Street", "fkStreet")
-                        .WithMany()
-                        .HasForeignKey("StreetId");
-
                     b.HasOne("cic_subscriptions_backend.Models.SubscriptionType", "fkSubs")
                         .WithMany()
                         .HasForeignKey("SubscriptionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("cic_subscription_backend.Models.LocationModels.Village", "fkVillage")
+                    b.Navigation("fkSubs");
+                });
+
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.Building.Flat", b =>
+                {
+                    b.HasOne("cic_subscription_backend.Models.LocationModels.Building.Floor", "fkFloor")
                         .WithMany()
-                        .HasForeignKey("VillageId");
-
-                    b.Navigation("fkApartment");
-
-                    b.Navigation("fkCity");
-
-                    b.Navigation("fkFlat");
+                        .HasForeignKey("FloorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("fkFloor");
+                });
 
-                    b.Navigation("fkHouseAddress");
-
-                    b.Navigation("fkRegion");
+            modelBuilder.Entity("cic_subscription_backend.Models.LocationModels.House.HouseAddress", b =>
+                {
+                    b.HasOne("cic_subscription_backend.Models.LocationModels.Street", "fkStreet")
+                        .WithMany()
+                        .HasForeignKey("StreetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("fkStreet");
-
-                    b.Navigation("fkSubs");
-
-                    b.Navigation("fkVillage");
                 });
 #pragma warning restore 612, 618
         }

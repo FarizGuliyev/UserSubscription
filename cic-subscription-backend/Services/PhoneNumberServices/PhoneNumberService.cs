@@ -39,6 +39,7 @@ namespace cic_subscription_backend.Services.PhoneNumberServices
                                        Id = pn.Id,
                                        UserId = pn.UserId,
                                        UserName = u.Name,
+                                       SurName=u.Surname,
                                        Number = pn.Number
                                    }
                              ).ToList();

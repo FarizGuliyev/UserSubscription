@@ -36,55 +36,55 @@ namespace cic_subscriptions_backend.Services.UserServices
             List<User> users = await context.User.ToListAsync();
             return users;
         }
-    
-    public async Task<User> SelectUserById(long id)
-    {
 
-
-        var foundUser = await context.User.FindAsync(id);
-        if (foundUser == null)
+        public async Task<User> SelectUserById(long id)
         {
-            throw new NotImplementedException();
+
+
+            var foundUser = await context.User.FindAsync(id);
+            if (foundUser == null)
+            {
+                throw new NotImplementedException();
+            }
+            return foundUser;
         }
-        return foundUser;
+
+        public async Task<User> UpdateUser(long id, InsertUserDto userDto)
+        {
+
+            if (id != userDto.Id)
+            {
+                throw new NotImplementedException();
+            }
+            var foundUser = await context.User.FindAsync(id);
+
+            if (foundUser == null)
+            {
+                throw new NotImplementedException();
+            }
+
+            var updatePayment = mapping.Map<InsertUserDto, User>(userDto, foundUser);
+            context.Entry(foundUser).CurrentValues.SetValues(userDto);
+            await context.SaveChangesAsync();
+            return foundUser;
+        }
+
+
+        public async Task<User> RemoveUser(long id)
+        {
+            User foundUser = await context.User.FindAsync(id);
+
+            if (foundUser == null)
+            {
+                throw new NotImplementedException();
+            }
+
+            context.User.Remove(foundUser);
+            await context.SaveChangesAsync();
+
+            return foundUser;
+        }
+
+
     }
-
-    public async Task<User> UpdateUser(long id, InsertUserDto userDto)
-    {
-
-        if (id != userDto.Id)
-        {
-            throw new NotImplementedException();
-        }
-        var foundUser = await context.User.FindAsync(id);
-
-        if (foundUser == null)
-        {
-            throw new NotImplementedException();
-        }
-
-        var updatePayment = mapping.Map<InsertUserDto, User>(userDto, foundUser);
-        context.Entry(foundUser).CurrentValues.SetValues(userDto);
-        await context.SaveChangesAsync();
-        return foundUser;
-    }
-
-
-    public async Task<User> RemoveUser(long id)
-    {
-        User foundUser = await context.User.FindAsync(id);
-
-        if (foundUser == null)
-        {
-            throw new NotImplementedException();
-        }
-
-        context.User.Remove(foundUser);
-        await context.SaveChangesAsync();
-
-        return foundUser;
-    }
-
-
-}
 }
