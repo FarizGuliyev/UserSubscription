@@ -20,7 +20,7 @@ namespace cic_subscription_backend.Services.AddressServices.RegionServices
         public async Task<Region> InsertRegion(Region region)
         {
             Region newRegion = new Region();
-            newRegion.Name = region.Name;
+            newRegion.RegionName = region.RegionName;
 
             await context.Region.AddAsync(newRegion);
             await context.SaveChangesAsync();
@@ -49,7 +49,7 @@ namespace cic_subscription_backend.Services.AddressServices.RegionServices
             else
             {
 
-                foundRegion.Name = region.Name;
+                foundRegion.RegionName = region.RegionName;
                 context.Entry(foundRegion).CurrentValues.SetValues(region);
                 await context.SaveChangesAsync();
             }

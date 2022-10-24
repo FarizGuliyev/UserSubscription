@@ -1,20 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cic_subscription_backend.Models.LocationModels.Building
+namespace cic_subscription_backend.DTOs.AddressDTOs.InsertDTOs
 {
-    public class Apartment
+    public class InsertApartmentDto
     {
-          [Key]
         public long Id { get; set; }
 
         public long StreetId { get; set; }
 
         public string ApartmentName { get; set; }
-
-        public Street street { get; set; }
     }
 }

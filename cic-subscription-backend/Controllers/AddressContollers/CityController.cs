@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using cic_subscription_backend.DTOs.AddressDTOs;
+using cic_subscription_backend.DTOs.AddressDTOs.InsertDTOs;
 using cic_subscription_backend.Models.LocationModels;
 using cic_subscription_backend.Services.AddressServices.CityServices;
 using cic_subscriptions_backend.Context;
@@ -25,22 +27,28 @@ namespace cic_subscription_backend.Controllers.AddressContollers
         }
 
         [HttpPost]
-        public async Task<ActionResult<City>> PostCity(City city)
+        public async Task<ActionResult<City>> PostCity(InsertCityDto city)
         {
             return Ok(await service.InsertCity(city));
         }
 
         [HttpGet]
-        public async Task<List<City>> GetCities()
+        public async Task<List<SelectCityDto>> GetCities()
         {
-            List<City> models = await service.SelectCities();
+            List<SelectCityDto> models = await service.SelectCities();
+            return models;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<List<SelectCityDto>> GetCitiesById(long id)
+        {
+            List<SelectCityDto> models = await service.SelectCitiesById(id);
             return models;
         }
 
 
-
         [HttpPut("{id}")]
-        public async Task<City> PutCity(long id, City city)
+        public async Task<City> PutCity(long id, InsertCityDto city)
         {
             City model = await service.UpdateCity(id, city);
             return model;

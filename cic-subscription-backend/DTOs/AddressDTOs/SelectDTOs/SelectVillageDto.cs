@@ -1,21 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cic_subscription_backend.Models.LocationModels
+namespace cic_subscription_backend.DTOs.AddressDTOs
 {
-    public class Village
+    public class SelectVillageDto
     {
-        [Key]
         public long Id { get; set; }
+
+        public long RegionId { get; set; }
 
         public long CityId { get; set; }
 
-        [Required]
         public string VillageName { get; set; }
 
-        public City city { get; set; }
+        public string CityName { get; set; }
+
+        public string RegionName { get; set; }
     }
 }

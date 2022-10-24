@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using cic_subscription_backend.DTOs.AddressDTOs;
+using cic_subscription_backend.DTOs.AddressDTOs.InsertDTOs;
 using cic_subscription_backend.Models.LocationModels.Building;
 using cic_subscription_backend.Services.AddressServices.ApartmentServices;
 using cic_subscriptions_backend.Context;
@@ -25,22 +27,36 @@ namespace cic_subscription_backend.Controllers.AddressContollers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Apartment>> PostApartment(Apartment apartment)
+        public async Task<ActionResult<Apartment>> PostApartment(InsertApartmentDto apartment)
         {
             return Ok(await service.InsertApartment(apartment));
         }
 
         [HttpGet]
-        public async Task<List<Apartment>> GetApartments()
+        public async Task<List<SelectApartmentDto>> GetApartments()
         {
-            List<Apartment> models = await service.SelectApartments();
+            List<SelectApartmentDto> models = await service.SelectApartments();
+            return models;
+        }
+
+         [HttpGet("/Apartment/ByStreet/{id}")]
+        public async Task<List<SelectApartmentDto>> GetApartmentsByStreetId(long id)
+        {
+            List<SelectApartmentDto> models = await service. SelectApartmentsByStreetId(id);
+            return models;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<List<SelectApartmentDto>> GetApartmentsById(long id)
+        {
+            List<SelectApartmentDto> models = await service.SelectApartmentsById(id);
             return models;
         }
 
 
 
         [HttpPut("{id}")]
-        public async Task<Apartment> PutApartment(long id, Apartment apartment)
+        public async Task<Apartment> PutApartment(long id, InsertApartmentDto apartment)
         {
             Apartment model = await service.UpdateApartment(id, apartment);
             return model;

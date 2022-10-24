@@ -1,25 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cic_subscription_backend.Models.LocationModels
+namespace cic_subscription_backend.DTOs.AddressDTOs
 {
-    public class Street
+    public class SelectStreetDto
     {
-        [Key]
         public long Id { get; set; }
 
         public long CityId { get; set; }
 
         public long? VillageId { get; set; }
 
-        [Required]
         public string StreetName { get; set; }
 
-        public City city { get; set; }
+        public string VillageName { get; set; }
 
-        public virtual Village village { get; set; }
+        public string CityName { get; set; }
+
+        public string RegionName { get; set; }
     }
 }

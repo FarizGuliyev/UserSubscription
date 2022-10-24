@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using cic_subscription_backend.DTOs;
 using cic_subscription_backend.Services.PhoneNumberServices;
 using cic_subscriptions_backend.Context;
@@ -34,7 +35,7 @@ namespace cic_subscription_backend.Services.PaymentServices
         {
             await using (context)
             {
-                var payments = (from u in context.User
+                var payments = (from u in context.User  
                                 join p in context.Payment on u.Id equals p.UserId
                                 orderby p.UserId
                                 select new SelectPaymentByUserDto()
@@ -83,24 +84,19 @@ namespace cic_subscription_backend.Services.PaymentServices
         {
             await using (context)
             {
-                var payments = (from u in context.User
-                                join p in context.Payment on u.Id equals p.UserId
-                                join s in context.SubscriptionType on u.SubscriptionTypeId equals s.Id
-                                orderby p.PayDate descending
-
-                                select new SelectPaymenttDto()
+                var payments=context.Payment
+                .Include(x => x.user)
+                .Include(x=>x.user.subs) 
+                .Select(
+                  x=>
+                  new SelectPaymenttDto()
                                 {
-
-                                    //________________________
-                                    UserName = u.Name,
-                                    ProductAmount = s.Price,
-                                    PaymentAmount = p.Amount,
-                                    PaymentDate = p.PayDate.ToString("yyyy:MM:dd"),
-                                    Debt = u.Debt,
-
-                                }
-                             ).ToList();
-
+                                    UserName = x.user.Name,
+                                    ProductAmount = x.user.subs.Price ,
+                                    PaymentAmount = x.Amount,
+                                    PaymentDate = x.PayDate.ToString("yyyy:MM:dd"),
+                                    Debt = x.user.Debt,
+                                }).ToList();
                 return payments;
             }
         }

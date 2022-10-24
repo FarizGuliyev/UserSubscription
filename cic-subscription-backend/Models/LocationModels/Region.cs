@@ -12,7 +12,7 @@ namespace cic_subscription_backend.Models
         public long Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string RegionName { get; set; }
 
     }
 }

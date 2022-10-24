@@ -6,12 +6,12 @@ using cic_subscription_backend.Services.PhoneNumberServices;
 using cic_subscription_backend.Services.SubscriptionTypeServices;
 using cic_subscription_backend.Services.AddressServices.ApartmentServices;
 using cic_subscription_backend.Services.AddressServices.CityServices;
-using cic_subscription_backend.Services.AddressServices.FlatServices;
 using cic_subscription_backend.Services.AddressServices.FloorServices;
-using cic_subscription_backend.Services.AddressServices.HouseAddressServices;
+using cic_subscription_backend.Services.AddressServices.FlatServices;
 using cic_subscription_backend.Services.AddressServices.RegionServices;
 using cic_subscription_backend.Services.AddressServices.StreetServices;
 using cic_subscription_backend.Services.AddressServices.VillageServices;
+using cic_subscription_backend.Services.AddressServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,9 +46,8 @@ builder.Services.AddScoped<IPhoneNumberService, PhoneNumberService>();
 builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();
 builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddScoped<ICityService, CityService>();
-builder.Services.AddScoped<IFlatService, FlatService>();
 builder.Services.AddScoped<IFloorService, FloorService>();
-builder.Services.AddScoped<IHouseAddressService, HouseAddressService>();
+builder.Services.AddScoped<IFlatService, FlatService>();
 builder.Services.AddScoped<IRegionService, RegionService>();
 builder.Services.AddScoped<IStreetService, StreetService>();
 builder.Services.AddScoped<IVillageService, VillageService>();

@@ -32,10 +32,10 @@ namespace cic_subscriptions_backend.Context
         public DbSet<City> City => Set<City>();
         public DbSet<Village> Village => Set<Village>();
         public DbSet<Street> Street => Set<Street>();
-        public DbSet<HouseAddress> HouseAddress => Set<HouseAddress>();
+        public DbSet<Flat> Flat => Set<Flat>();
         public DbSet<Apartment> Apartment => Set<Apartment>();
         public DbSet<Floor> Floor => Set<Floor>();
-        public DbSet<Flat> Flat => Set<Flat>();
+
     }
 }
 

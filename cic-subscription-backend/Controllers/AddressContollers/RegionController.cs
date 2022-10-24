@@ -37,8 +37,6 @@ namespace cic_subscription_backend.Controllers.AddressContollers
             return models;
         }
 
-
-
         [HttpPut("{id}")]
         public async Task<Region> PutRegion(long id, Region region)
         {

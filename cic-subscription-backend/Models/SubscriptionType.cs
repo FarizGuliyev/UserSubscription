@@ -9,7 +9,7 @@ namespace cic_subscriptions_backend.Models
         public long Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string SubName { get; set; }
 
         [Required]
         public float Price { get; set; }

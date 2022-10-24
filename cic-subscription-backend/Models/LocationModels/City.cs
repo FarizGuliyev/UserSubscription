@@ -11,8 +11,8 @@ namespace cic_subscription_backend.Models.LocationModels
         public long RegionId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string CityName { get; set; }
 
-        public Region fkRegion { get; set; }
+        public Region region { get; set; }
     }
 }

@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using cic_subscription_backend.DTOs.AddressDTOs;
+using cic_subscription_backend.DTOs.AddressDTOs.InsertDTOs;
 using cic_subscription_backend.Models.LocationModels.Building;
 using cic_subscription_backend.Services.AddressServices.FloorServices;
 using cic_subscriptions_backend.Context;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
 
 namespace cic_subscription_backend.Controllers.AddressContollers
 {
@@ -16,6 +18,7 @@ namespace cic_subscription_backend.Controllers.AddressContollers
     public class FloorController : ControllerBase
     {
         private IFloorService service;
+
         private readonly DatabaseContext context;
 
         public FloorController(DatabaseContext context, IFloorService service)
@@ -25,22 +28,27 @@ namespace cic_subscription_backend.Controllers.AddressContollers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Floor>> PostFloor(Floor floor)
+        public async Task<ActionResult<Floor>> PostFloor(InsertFloorDto floor)
         {
             return Ok(await service.InsertFloor(floor));
         }
 
         [HttpGet]
-        public async Task<List<Floor>> GetFloors()
+        public async Task<List<SelectFloorDto>> GetFloors()
         {
-            List<Floor> models = await service.SelectFloors();
+            List<SelectFloorDto> models = await service.SelectFloors();
             return models;
         }
 
-
+        [HttpGet("{id}")]
+        public async Task<List<SelectFloorDto>> GetFloorsById(long id)
+        {
+            List<SelectFloorDto> models = await service.SelectFloorsById(id);
+            return models;
+        }
 
         [HttpPut("{id}")]
-        public async Task<Floor> PutFloor(long id, Floor floor)
+        public async Task<Floor> PutFloor(long id, InsertFloorDto floor)
         {
             Floor model = await service.UpdateFloor(id, floor);
             return model;
